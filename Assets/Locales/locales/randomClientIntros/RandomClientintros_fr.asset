@@ -26,19 +26,20 @@ MonoBehaviour:
     m_Localized: Auriez-vous un masque avec {0}?
     m_Metadata:
       m_Items:
-      - id: 1
+      - id: 0
+      - id: 4
   - m_Id: 2
     m_Localized: 'Bonjour, je voudrais un masque avec {0}
 
 '
     m_Metadata:
       m_Items:
-      - id: 0
+      - id: 3
   - m_Id: 3
     m_Localized: Auriez vous un masque avec {0}? C'est pour mon fils.
     m_Metadata:
       m_Items:
-      - id: 2
+      - id: 1
   - m_Id: 4
     m_Localized: J'ai besoin d'un masque avec {0}
     m_Metadata:
@@ -47,7 +48,7 @@ MonoBehaviour:
     m_Localized: "J'aimerai bien un masque avec {0}, \xE7a serait cool"
     m_Metadata:
       m_Items:
-      - id: 3
+      - id: 2
   - m_Id: 6
     m_Localized: "Un masque qui aurait {0}. vous auriez \xE7a, ce serait g\xE9nial."
     m_Metadata:
@@ -73,16 +74,21 @@ MonoBehaviour:
     00000000:
       type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
       data:
-        m_Entries: 02000000
+        m_Entries: 01000000
     00000001:
       type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
       data:
-        m_Entries: 01000000
+        m_Entries: 03000000
     00000002:
       type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
       data:
-        m_Entries: 03000000
+        m_Entries: 05000000
     00000003:
       type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
       data:
-        m_Entries: 05000000
+        m_Entries: 02000000
+    00000004:
+      type: {class: Comment, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_TimeStamp: 16:15:35.250810
+        m_CommentText: Comment Text

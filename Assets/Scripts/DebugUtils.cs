@@ -62,8 +62,8 @@ public class DebugUtils : MonoBehaviour
     static public GameObject getGameMaster()
     {
         GameObject master = GameObject.Find("GameMasterDEBUG");
-        if (master == null)
-            master = GameObject.Find("GameMasterDEBUG");
+        if (master == null || master.activeInHierarchy == false)
+            master = GameObject.Find("GameMaster");
         return master;
     }
 

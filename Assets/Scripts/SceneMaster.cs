@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Localization.Settings;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -34,6 +35,9 @@ public class SceneMaster : MonoBehaviour
 
     void Start()
     {
+        //preload Localization string tables
+        LocalizationSettings.StringDatabase.GetTableAsync(LocalizationSettings.StringDatabase.DefaultTable);
+
         DontDestroyOnLoad(this);
     }
 

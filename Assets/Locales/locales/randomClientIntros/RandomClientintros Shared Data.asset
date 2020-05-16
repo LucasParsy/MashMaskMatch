@@ -20,6 +20,10 @@ MonoBehaviour:
     m_Key: 1
     m_Metadata:
       m_Items: []
+  - m_Id: 10
+    m_Key: 10
+    m_Metadata:
+      m_Items: []
   - m_Id: 1
     m_Key: 2
     m_Metadata:
@@ -54,11 +58,13 @@ MonoBehaviour:
     m_Key: 9
     m_Metadata:
       m_Items: []
-  - m_Id: 10
-    m_Key: 10
-    m_Metadata:
-      m_Items: []
   m_Metadata:
-    m_Items: []
+    m_Items:
+    - id: 0
   references:
     version: 1
+    00000000:
+      type: {class: PreloadAssetTableMetadata, ns: UnityEngine.Localization.Metadata,
+        asm: Unity.Localization}
+      data:
+        m_PreloadBehaviour: 0

@@ -22,7 +22,7 @@ public class DemandPool : MonoBehaviour
     #endregion
 
     #region Game méthodes
-    private void Start()
+    private void Awake()
     {
         randomDemandDialogGenerator = GetComponent<RandomDemandDialogGen>();
     }

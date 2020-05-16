@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using UnityEngine.Localization.Settings;
+using UnityEngine.Localization.SmartFormat;
 
 public class RandomDemandDialogGen : MonoBehaviour
 {
@@ -12,25 +14,28 @@ public class RandomDemandDialogGen : MonoBehaviour
     /// List of the sentence's first words
     /// </summary>
 
-    public UnityEngine.Localization.Settings.LocalizedStringDatabase db;
-
-    public List<string> intros;
+    private List<string> intros = new List<string>();
     #endregion
 
     #region Methods
 
     //retreive all the intros localized strings
-    public IEnumerator Start()
+    private IEnumerator getLocalizedStrings()
     {
-        var d = db.GetTableAsync(db.DefaultTable);
-        yield return d;
+        var d = LocalizationSettings.StringDatabase.GetTableAsync(LocalizationSettings.StringDatabase.DefaultTable);
+        if (!d.IsDone)
+            yield return d;
         var stringEntryList = d.Result.ToList();
 
-        for (int i = 0; i < stringEntryList.Count; i++)
-        {
-            var loc = stringEntryList[i].Value.GetLocalizedString();
-            intros.Add(loc);
-        }
+        foreach (var entry in d.Result.Values)
+            intros.Add(entry.GetLocalizedString());
+        Debug.Log("finished query localized str at:" + Time.fixedTime);
+    }
+
+
+    public void Awake()
+    {
+        StartCoroutine(getLocalizedStrings());
     }
 
     /// to do "I want A,B and C" instead of "I want A B C"
@@ -70,8 +75,15 @@ public class RandomDemandDialogGen : MonoBehaviour
         addLine(question, "des yeux ", mask.eyes, numComponents, ref currentPart);
         addLine(question, "une bouche ", mask.mouth, numComponents, ref currentPart);
         addLine(question, "une forme ", mask.face, numComponents, ref currentPart);
+
+
+
+        var parts = new List<string>() { "des yeux ronds", "une bouche verte", "une forme carrée" };
+        var testSeparators = Smart.Format("Bjr: {Messages:|, | et } s'il vous plait",  new object[] {new {Messages = parts}});
+
+        Debug.Log("intro str asked at: " + Time.fixedTime);
         string intro = intros[Random.Range(0, intros.Count)];
-        dialogue.AppendFormat(intro, question);
+    dialogue.AppendFormat(intro, question);
         return dialogue.ToString();
     }
     #endregion
