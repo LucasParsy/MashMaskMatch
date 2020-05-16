@@ -1,0 +1,62 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: RandomClientintros_en
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: en
+  m_SharedData: {fileID: 11400000, guid: 71355cd19433d8b79932890296a50389, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 1
+    m_Localized: Would you have a mask with {0}?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2
+    m_Localized: Hello, I'd like to have a mask with {0}
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3
+    m_Localized: Would you have a mask with {0}? It's for my son.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4
+    m_Localized: I'd need a mask with {0}
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5
+    m_Localized: I would like a mask with {0}, that would be great
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6
+    m_Localized: A mask which would have  {0}. That would be awesome.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7
+    m_Localized: How much for a mask with {0}?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8
+    m_Localized: '{0}. My ideal mask.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9
+    m_Localized: A mask with {0}. It's to save peace from warriors.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10
+    m_Localized: Do you sell a mask with {0}?
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 1

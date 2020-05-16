@@ -1,0 +1,88 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: RandomClientintros_fr
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: fr
+  m_SharedData: {fileID: 11400000, guid: 71355cd19433d8b79932890296a50389, type: 2}
+  m_Metadata:
+    m_Items:
+    - id: 0
+    - id: 1
+    - id: 2
+    - id: 3
+  m_TableData:
+  - m_Id: 1
+    m_Localized: Auriez-vous un masque avec {0}?
+    m_Metadata:
+      m_Items:
+      - id: 1
+  - m_Id: 2
+    m_Localized: 'Bonjour, je voudrais un masque avec {0}
+
+'
+    m_Metadata:
+      m_Items:
+      - id: 0
+  - m_Id: 3
+    m_Localized: Auriez vous un masque avec {0}? C'est pour mon fils.
+    m_Metadata:
+      m_Items:
+      - id: 2
+  - m_Id: 4
+    m_Localized: J'ai besoin d'un masque avec {0}
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5
+    m_Localized: "J'aimerai bien un masque avec {0}, \xE7a serait cool"
+    m_Metadata:
+      m_Items:
+      - id: 3
+  - m_Id: 6
+    m_Localized: "Un masque qui aurait {0}. vous auriez \xE7a, ce serait g\xE9nial."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7
+    m_Localized: Combien pour un masque contenant {0}?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8
+    m_Localized: "{0}. Mon masque id\xE9al."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9
+    m_Localized: un masque avec {0}. C'est pour sauver la paix des guerriers
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10
+    m_Localized: Vous vendez un masque avec {0}?
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 1
+    00000000:
+      type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_Entries: 02000000
+    00000001:
+      type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_Entries: 01000000
+    00000002:
+      type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_Entries: 03000000
+    00000003:
+      type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_Entries: 05000000

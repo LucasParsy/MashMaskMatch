@@ -23,4 +23,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MaskGlossaryScene.unity
     guid: 1410c193a46738644b0a29882b9305cc
-  m_configObjects: {}
+  m_configObjects:
+    com.unity.addressableassets: {fileID: 11400000, guid: 18deebc6ca11d2ead92f8ee26adc4a40,
+      type: 2}
+    com.unity.localization.settings: {fileID: 11400000, guid: 417e3cbb61a1aff618f85e65497fb93a,
+      type: 2}

@@ -248,7 +248,7 @@ public class SceneEventManager : MonoBehaviour
     /// <returns></returns>
     private IEnumerator StartingDemande()
     {
-        yield return new WaitForSeconds(timeWaitClientEnter);
+        yield return new WaitForSeconds(timeWaitClientEnter); 
         dialogue.GetComponent<TextAppearance>().WriteMessage(gameMaster.GetComponent<DemandPool>().GeneratedSentence());
 
         isStartingNewDemande = false;

@@ -5,6 +5,13 @@ using UnityEngine;
 
 public class DemandPool : MonoBehaviour
 {
+    #region Parameters
+
+    private RandomDemandDialogGen randomDemandDialogGenerator;
+
+    #endregion
+
+
     #region Attributs
 
     /// <summary>
@@ -15,6 +22,10 @@ public class DemandPool : MonoBehaviour
     #endregion
 
     #region Game méthodes
+    private void Start()
+    {
+        randomDemandDialogGenerator = GetComponent<RandomDemandDialogGen>();
+    }
 
     #endregion
 
@@ -34,8 +45,8 @@ public class DemandPool : MonoBehaviour
         MaskComponents mask = RandomDemandGenerator.GenerateMask(pool, numComponents);
         //add non-empty parts to the victory list
         foreach (var elem in mask.toList().Where(n => n != ""))
-                victoriousPick.Add(elem);
-        return RandomDemandDialogGen.GenerateSentence(mask, numComponents);
+            victoriousPick.Add(elem);
+        return randomDemandDialogGenerator.GenerateSentence(mask, numComponents);
     }
     #endregion
 }
