@@ -6,9 +6,6 @@ using UnityEngine;
 public class MaskPool : MonoBehaviour
 {
     #region Parameters
-    
-    [SerializeField]
-    private Sprite[] masksSprites = null;
 
     [SerializeField]
     private int sortOrder = 2;
@@ -17,6 +14,7 @@ public class MaskPool : MonoBehaviour
     private int minLimitRoll = 0;
     private List<GameObject> masks = new List<GameObject>();
 
+    private PoolMaskMovement poolMovVals;
     private Camera cam;
     private bool isMoving = false;
 
@@ -24,47 +22,26 @@ public class MaskPool : MonoBehaviour
 
     #region Attributs
 
-    public PoolMaskMovement poolMovVals = null;
+    /// <summary>
+    /// Enabled mask list
+    /// </summary>
+    [HideInInspector]
+    public List<Sprite> masksSprites;
     public float distance;
 
     #endregion
 
     #region Game Méthodes
 
-    void Start()
+    void Awake()
     {
         poolMovVals = GetComponentInParent<PoolMaskMovement>();
         cam = Camera.main;
-        distance = Screen.width * poolMovVals.maskDistance;
-        current = masksSprites.Length / 2;
+    }
 
-        System.Array.Sort(masksSprites, new RandomSorter());
-        for (int i = 0; i < masksSprites.Length; i++)
-        {
-            //sprite instanciation
-            GameObject go = new GameObject(masksSprites[i].name);
-            go.transform.SetParent(transform);
-            SpriteRenderer sr = go.AddComponent<SpriteRenderer>();
-            sr.sprite = masksSprites[i];
-            sr.sortingOrder = sortOrder;
-            Vector3 pos = getPositionFromIndex(i);
-            //scale the masks on the border smaller than the center one
-            go.transform.localScale = new Vector3(poolMovVals.scale * 0.7f, poolMovVals.scale * 0.7f, 1);
-            go.transform.position = pos;
-            masks.Add(go);
+    void Start()
+    {
 
-            //sprite shadow
-            GameObject shadow = Instantiate(go);
-            shadow.transform.SetParent(go.transform);
-            shadow.transform.position = go.transform.position;
-            shadow.transform.Translate(new Vector3(0.1f, -0.1f, 0));
-            SpriteRenderer shadow_render = shadow.GetComponent<SpriteRenderer>();
-            shadow_render.color = Color.black;
-            shadow_render.sortingOrder = -1;
-        }
-        masks[current].transform.localScale = new Vector3(poolMovVals.scale, poolMovVals.scale, 1);
-        //retreive distance between 2 sprites, for movement
-        distance = masks[0].transform.position.x - masks[1].transform.position.x;
     }
 
     #endregion
@@ -107,13 +84,52 @@ public class MaskPool : MonoBehaviour
     }
 
     /// <summary>
+    /// Set up the masks on start
+    /// </summary>
+    public void ShowMasks()
+    {
+        if (masksSprites.Count > 0)
+        {
+            distance = Screen.width * poolMovVals.maskDistance;
+            current = masksSprites.Count / 2;
+
+            for (int i = 0; i < masksSprites.Count; i++)
+            {
+                //sprite instanciation
+                GameObject go = new GameObject(masksSprites[i].name);
+                go.transform.SetParent(transform);
+                SpriteRenderer sr = go.AddComponent<SpriteRenderer>();
+                sr.sprite = masksSprites[i];
+                sr.sortingOrder = sortOrder;
+                Vector3 pos = getPositionFromIndex(i);
+                //scale the masks on the border smaller than the center one
+                go.transform.localScale = new Vector3(poolMovVals.scale * 0.7f, poolMovVals.scale * 0.7f, 1);
+                go.transform.position = pos;
+                masks.Add(go);
+
+                //sprite shadow
+                GameObject shadow = Instantiate(go);
+                shadow.transform.SetParent(go.transform);
+                shadow.transform.position = go.transform.position;
+                shadow.transform.Translate(new Vector3(0.1f, -0.1f, 0));
+                SpriteRenderer shadow_render = shadow.GetComponent<SpriteRenderer>();
+                shadow_render.color = Color.black;
+                shadow_render.sortingOrder = -1;
+            }
+            masks[current].transform.localScale = new Vector3(poolMovVals.scale, poolMovVals.scale, 1);
+            //retreive distance between 2 sprites, for movement
+            distance = masks[0].transform.position.x - masks[1].transform.position.x;
+        }
+    }
+
+    /// <summary>
     /// Return the position of the mask at the selected index
     /// </summary>
     /// <param name="i"></param>
     /// <returns></returns>
     private Vector3 getPositionFromIndex(int i)
     {
-        float posX = distance * (i - Mathf.FloorToInt(masksSprites.Length / 2)) + (Screen.width / 2);
+        float posX = distance * (i - Mathf.FloorToInt(masksSprites.Count / 2)) + (Screen.width / 2);
         Vector3 pos = cam.ScreenToWorldPoint(new Vector3(posX, 0, transform.position.z));
         pos.y = transform.position.y;
         return pos;
@@ -122,7 +138,7 @@ public class MaskPool : MonoBehaviour
     #endregion
 
     #region Coroutines
-    
+
     /// <summary>
     /// mask Tansition
     /// </summary>

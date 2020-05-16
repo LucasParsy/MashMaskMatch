@@ -20,6 +20,21 @@ public class LevelManager : MonoBehaviour
     GameObject gameManager;
 
     /// <summary>
+    /// ShapePool MaskPool accès
+    /// </summary>
+    MaskPool shapeMaskPool;
+
+    /// <summary>
+    /// EyesPool MaskPool accès
+    /// </summary>
+    MaskPool eyesMaskPool;
+
+    /// <summary>
+    /// MouthPool MaskPool accès
+    /// </summary>
+    MaskPool mouthMaskPool;
+
+    /// <summary>
     /// List of the winning element selected by the player
     /// </summary>
     List<string> winningPart;
@@ -32,7 +47,7 @@ public class LevelManager : MonoBehaviour
     #endregion
 
     #region Attributs
-    
+
     /// <summary>
     /// UI canvas accès
     /// </summary>
@@ -43,20 +58,54 @@ public class LevelManager : MonoBehaviour
     /// </summary>
     public GameObject playerNotification;
 
+    /// <summary>
+    /// for debug, always have a valid mask and pass to next client
+    /// </summary>
+    [HideInInspector]
+    public bool alwaysWin = false;
+
     #endregion
 
     #region Game Méthodes
 
-    void Start()
+    void Awake()
     {
         gameManager = GameObject.Find("GameManager");
-        gameMaster = GameObject.Find("GameMaster");
+        shapeMaskPool = GameObject.Find("maskPool").GetComponent<MaskPool>();
+        eyesMaskPool = GameObject.Find("eyesPool").GetComponent<MaskPool>();
+        mouthMaskPool = GameObject.Find("mouthPool").GetComponent<MaskPool>();
+
+        gameMaster = DebugUtils.getGameMaster();
+    }
+
+    void Start()
+    {
         winningPart = new List<string>();
     }
 
     #endregion
 
     #region Méthodes
+
+    /// <summary>
+    /// Set Up all the enabled Mask parts on the UI
+    /// </summary>
+
+    private void setUpPool(MaskPool pool, Dictionary<Sprite, bool> spritesDict)
+    {
+        List<Sprite> unlockedMasks = MaskPartContainer.getUnlockedMasks(spritesDict);
+        ListUtils.Shuffle(unlockedMasks);
+        pool.masksSprites.AddRange(unlockedMasks);
+        pool.ShowMasks();
+    }
+
+    public void SetUpMasks()
+    {
+        MaskPartContainer container = gameMaster.GetComponent<MaskPartContainer>();
+        setUpPool(eyesMaskPool, container.EyesParts);
+        setUpPool(shapeMaskPool, container.ShapeParts);
+        setUpPool(mouthMaskPool, container.MouthParts);
+    }
 
     /// <summary>
     /// Do the comparaison between selected element and winning part
@@ -83,8 +132,8 @@ public class LevelManager : MonoBehaviour
         }
 
         StartCoroutine(SuccesAlert());
-        
-        if (victoryPoint > 0)
+
+        if (victoryPoint > 0  || alwaysWin)
         {
             gameManager.GetComponent<SceneEventManager>().NewDemande();
             return true;
@@ -127,11 +176,11 @@ public class LevelManager : MonoBehaviour
             foreach (var item in winningPart)
             {
                 playerNotification.GetComponent<VictoryPointBehaviours>().text = item + " +1";
-                
+
                 Instantiate(playerNotification, canvas.transform);
                 yield return new WaitForSeconds(1);
             }
-        } 
+        }
     }
 
     #endregion

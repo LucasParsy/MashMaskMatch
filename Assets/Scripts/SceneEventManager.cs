@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -10,17 +9,12 @@ public class SceneEventManager : MonoBehaviour
     #region Parameters
 
     /// <summary>
-    /// Dialogue GameObject
-    /// </summary>
-    private GameObject dialogueGO;
-
-    /// <summary>
     /// GameMaster Acces
     /// </summary>
     private GameObject gameMaster;
 
     /// <summary>
-    /// Dialogue container
+    /// GO Dialogue container
     /// </summary>
     private GameObject dialogue;
 
@@ -98,30 +92,51 @@ public class SceneEventManager : MonoBehaviour
     /// </summary>
     public int totalVictoryPoint;
 
+    /// <summary>
+    /// time to wait before showing the text, while the client enter animation plays.
+    /// should be 2, but ca  be 0 for debug
+    /// </summary>
+    [SerializeField]
+    public float timeWaitClientEnter = 2;
+
+
+    /// <summary>
+    /// Set up debug mode
+    /// </summary>
+    public bool isDebug;
+
     #endregion
 
     #region Game Méthodes
 
-    void Start()
+    void Awake()
     {
-        totalVictoryPoint = 0;
-        demande = 0;
-        dialogueGO = GameObject.Find("Dialogue");
-        gameMaster = GameObject.Find("GameMaster");
-        dialogue = GameObject.Find("Dialogue");
+        gameMaster = DebugUtils.getGameMaster();
         pools = GameObject.Find("pools");
+        dialogue = GameObject.Find("Dialogue");
         doorAnimator = GameObject.Find("Wall")?.GetComponent<Animator>();
         timerAnimator = GameObject.Find("Timer")?.GetComponent<Animator>();
         clientPool = GameObject.Find("clientPool");
         uiCanvas = GameObject.Find("UiCanvas");
         isWriting = dialogue.GetComponent<TextAppearance>().isWritting;
         musicManager = gameMaster.GetComponent<MusicManager>();
+    }
 
-        NewDemande();
+    void Start()
+    {
+        totalVictoryPoint = 0;
+        demande = 0;
     }
 
     void Update()
     {
+        if (isDebug)
+        {
+            isDebug = false;
+            LaunchStartOfDay();
+        }
+            
+
         if (state == GameState.Dialogue)
         {
             isWriting = dialogue.GetComponent<TextAppearance>().isWritting;
@@ -198,6 +213,15 @@ public class SceneEventManager : MonoBehaviour
             });
     }
 
+    /// <summary>
+    /// Set up level start fire on sceneLoaded
+    /// </summary>
+    public void LaunchStartOfDay()
+    {
+        pools.GetComponent<LevelManager>().SetUpMasks();
+        NewDemande();
+    }
+
     #endregion
 
     #region Coroutine
@@ -224,8 +248,8 @@ public class SceneEventManager : MonoBehaviour
     /// <returns></returns>
     private IEnumerator StartingDemande()
     {
-        yield return new WaitForSeconds(2);
-        dialogueGO.GetComponent<TextAppearance>().WriteMessage(gameMaster.GetComponent<DemandPool>().GeneratedSentence());
+        yield return new WaitForSeconds(timeWaitClientEnter);
+        dialogue.GetComponent<TextAppearance>().WriteMessage(gameMaster.GetComponent<DemandPool>().GeneratedSentence());
 
         isStartingNewDemande = false;
     }

@@ -27,6 +27,14 @@ public class TextAppearance : MonoBehaviour
     [Range(0, 0.1f)]
     public float pause = 0.05f;
 
+
+    /// <summary>
+    /// show text immediatly (debug)
+    /// </summary>
+    [HideInInspector]
+    public bool isInstant = false;
+
+
     /// <summary>
     /// Is all the text is written
     /// </summary>
@@ -69,6 +77,12 @@ public class TextAppearance : MonoBehaviour
     /// <returns></returns>
     IEnumerator TypeLetters()
     {
+        if (isInstant)
+        {
+            guiText.text = messageStorage;
+            isWritting = false;
+            yield break;
+        }
         var charArray = messageStorage.ToCharArray();
 
         if (charArray.Length > 200)

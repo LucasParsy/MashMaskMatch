@@ -9,6 +9,18 @@ EditorBuildSettings:
     path: Assets/Scenes/StartUpScene.unity
     guid: 7f3a6307d1901e14b89b692d6bd29fe3
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
+    path: Assets/Scenes/ShopScene.unity
+    guid: 63ff67aa1b8ec481ca9d02c8058e4bd1
+  - enabled: 1
+    path: Assets/Scenes/SelectionMenuScene.unity
+    guid: d4c89ef4bd91546438929f9ea96f2690
+  - enabled: 1
+    path: Assets/Scenes/MaskGlossaryScene.unity
+    guid: 1410c193a46738644b0a29882b9305cc
+  - enabled: 1
+    path: Assets/Scenes/SelectionMenuScene.unity
+    guid: d4c89ef4bd91546438929f9ea96f2690
+  - enabled: 1
+    path: Assets/Scenes/MaskGlossaryScene.unity
+    guid: 1410c193a46738644b0a29882b9305cc
   m_configObjects: {}

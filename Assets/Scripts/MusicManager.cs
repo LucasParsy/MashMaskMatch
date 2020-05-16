@@ -180,10 +180,11 @@ public class MusicManager : MonoBehaviour
     {
         Debug.Log("OnSceneLoaded: " + scene.name);
         Debug.Log(mode);
+
         switch (scene.name)
         {
             case "StartUpScene": playBgmCorout(introMus); break;
-            case "SampleScene": playBgmCorout(gameMus); break;
+            case "ShopScene": playBgmCorout(gameMus); break;
         }
     }
 

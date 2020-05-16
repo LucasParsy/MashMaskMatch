@@ -33,6 +33,18 @@ public class PoolMaskMovement : MonoBehaviour
     /// </summary>
     private GameObject gameManager;
 
+    /// <summary>
+    /// Game master acces
+    /// </summary>
+    private GameObject gameMaster;
+
+    /// <summary>
+    /// Game master acces
+    /// </summary>
+    [SerializeField]
+    private Vector3 maskGiveMovement;
+
+
     #endregion
 
     #region Attributs
@@ -59,7 +71,9 @@ public class PoolMaskMovement : MonoBehaviour
         poolPart.Add(transform.Find("maskPool").GetComponent<MaskPool>());
 
         gameManager = GameObject.Find("GameManager");
-        musicManager = GameObject.Find("GameMaster").GetComponent<MusicManager>();
+
+        gameMaster = DebugUtils.getGameMaster();
+        musicManager = gameMaster.GetComponent<MusicManager>();
 
         isPlaying = gameManager.GetComponent<SceneEventManager>().state == GameState.Playing;
     }
@@ -84,7 +98,7 @@ public class PoolMaskMovement : MonoBehaviour
     #endregion
 
     #region Coroutine
-    
+
     /// <summary>
     /// Send mask to the client
     /// </summary>
@@ -113,10 +127,12 @@ public class PoolMaskMovement : MonoBehaviour
         go.transform.Rotate(70, 0, 0);
 
         musicManager.playSendMask();
+        float firstPartSpeed = transitionSpeed * 1.5f;
         yield return DOTween.Sequence()
-        .Append(go.transform.DOMove(new Vector3(0, 4, 4), transitionSpeed * 2))
-        .Insert(0, go.transform.DORotate(new Vector3(0, 0, 0), transitionSpeed * 2))
-        .Append(go.transform.DOScale(new Vector3(0, 0, 0), transitionSpeed))
+        .Append(go.transform.DOMove(maskGiveMovement, firstPartSpeed))
+        .Insert(0, go.transform.DORotate(new Vector3(0, 0, 0), firstPartSpeed))
+        .Append(go.transform.DORotate(new Vector3(90, 0, 0), transitionSpeed * 0.5f))
+        //.Append(go.transform.DOScale(new Vector3(0, 0, 0), transitionSpeed))
         .SetEase(Ease.OutCirc).WaitForCompletion();
         Destroy(go);
 
