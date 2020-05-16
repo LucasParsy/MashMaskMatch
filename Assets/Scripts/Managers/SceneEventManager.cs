@@ -34,6 +34,11 @@ public class SceneEventManager : MonoBehaviour
     private GameObject uiCanvas;
 
     /// <summary>
+    /// Bell image container acces
+    /// </summary>
+    private GameObject bell;
+
+    /// <summary>
     /// GameOver screen
     /// </summary>
     private GameObject gameOverPanel;
@@ -71,6 +76,16 @@ public class SceneEventManager : MonoBehaviour
     #endregion
 
     #region Attributs
+
+    /// <summary>
+    /// Sprite Used for the bell animation
+    /// </summary>
+    public Sprite bellIdle;
+
+    /// <summary>
+    /// Sprite used for the bell animation
+    /// </summary>
+    public Sprite bellRing;
 
     /// <summary>
     /// Game over screen element
@@ -118,6 +133,7 @@ public class SceneEventManager : MonoBehaviour
         timerAnimator = GameObject.Find("Timer")?.GetComponent<Animator>();
         clientPool = GameObject.Find("clientPool");
         uiCanvas = GameObject.Find("UiCanvas");
+        bell = GameObject.Find("Bell");
         isWriting = dialogue.GetComponent<TextAppearance>().isWritting;
         musicManager = gameMaster.GetComponent<MusicManager>();
     }
@@ -191,7 +207,7 @@ public class SceneEventManager : MonoBehaviour
         state = GameState.Dialogue;
         timerAnimator.StopPlayback();
         doorAnimator.SetTrigger("OpenDoor");
-        musicManager.playBell();
+        StartCoroutine(RingTheBell());
         clientPool.GetComponent<ClientPool>().NewClient();
         StartCoroutine(StartingDemande());
     }
@@ -206,11 +222,20 @@ public class SceneEventManager : MonoBehaviour
 
         gameOverPanel = Instantiate(gameOverGO, uiCanvas.transform);
 
-        GameObject.Find("Button").GetComponent<Button>().onClick
-            .AddListener(delegate { 
-                totalVictoryPoint = 0;  
-                NewDemande(); 
-            });
+        GameObject.Find("RestartBtn").GetComponent<Button>().onClick.AddListener(delegate 
+        {
+            totalVictoryPoint = 0;
+            NewDemande(); 
+        });
+
+        GameObject.Find("MenuBtn").GetComponent<Button>().onClick.AddListener(delegate
+        {
+            gameMaster.GetComponent<SceneMaster>().LaunchSelectionMenuScene();
+        });
+
+        SaveManager.Instance.state.gold += totalVictoryPoint;
+        SaveManager.Instance.state.completedDays += 1;
+        SaveManager.Instance.Save();
     }
 
     /// <summary>
@@ -234,12 +259,12 @@ public class SceneEventManager : MonoBehaviour
     {
         musicManager.playScratchSound(0);
         yield return new WaitForSeconds(5);
-        musicManager.playScratchSound(0);
-        yield return new WaitForSeconds(6);
-        musicManager.playScratchSound(0);
-        yield return new WaitForSeconds(6);
-        musicManager.playScratchSound(0);
-        yield return new WaitForSeconds(8);
+        musicManager.playScratchSound(1);
+        yield return new WaitForSeconds(5);
+        musicManager.playScratchSound(2);
+        yield return new WaitForSeconds(5);
+        musicManager.playScratchSound(3);
+        yield return new WaitForSeconds(5);
     }
 
     /// <summary>
@@ -252,6 +277,18 @@ public class SceneEventManager : MonoBehaviour
         dialogue.GetComponent<TextAppearance>().WriteMessage(gameMaster.GetComponent<DemandPool>().GeneratedSentence());
 
         isStartingNewDemande = false;
+    }
+
+    /// <summary>
+    /// Animate the bell and play the sound
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator RingTheBell()
+    {
+        bell.GetComponent<Image>().sprite = bellRing;
+        musicManager.playBell();
+        yield return new WaitForSeconds(0.5f);
+        bell.GetComponent<Image>().sprite = bellIdle;
     }
 
     #endregion

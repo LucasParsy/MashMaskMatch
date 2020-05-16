@@ -28,10 +28,14 @@ public class ClientPool : MonoBehaviour
 
     #region Game Méthodes
 
-    void Start()
+    void Awake()
     {
         clientAnimator = clientFace.GetComponent<Animator>();
-        NewClient();
+    }
+
+    void Start()
+    {
+
     }
 
     #endregion

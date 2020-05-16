@@ -18,6 +18,9 @@ public class GlossaryManager : MonoBehaviour
     public GameObject masksContainer;
     public GameObject maskPresentation;
 
+    public bool IsPurchase;
+    public bool IsVertical;
+
     #endregion
 
     #region Game méthodes
@@ -26,9 +29,9 @@ public class GlossaryManager : MonoBehaviour
     {
         unlockedMaskParts = new List<Sprite>();
         MaskPartContainer container = DebugUtils.getGameMaster().GetComponent<MaskPartContainer>();
-        FillUnlockedPartList(container.ShapeParts);
-        FillUnlockedPartList(container.EyesParts);
-        FillUnlockedPartList(container.MouthParts);
+        FillPartList(container.ShapeParts);
+        FillPartList(container.EyesParts);
+        FillPartList(container.MouthParts);
         InstanciateMasksPresentation();
     }
 
@@ -40,9 +43,12 @@ public class GlossaryManager : MonoBehaviour
     /// fill the unlockedMaskPart list with the unlocked part from the partList
     /// </summary>
     /// <param name="partList"></param>
-    private void FillUnlockedPartList(Dictionary<Sprite, bool> partList)
+    private void FillPartList(Dictionary<Sprite, bool> partList)
     {
-        unlockedMaskParts.AddRange(MaskPartContainer.getUnlockedMasks(partList));
+        if(IsPurchase)
+            unlockedMaskParts.AddRange(MaskPartContainer.GetLockedMasks(partList));
+        else
+            unlockedMaskParts.AddRange(MaskPartContainer.GetUnlockedMasks(partList));
     }
 
     /// <summary>
@@ -50,10 +56,14 @@ public class GlossaryManager : MonoBehaviour
     /// </summary>
     private void InstanciateMasksPresentation()
     {
-        var height = unlockedMaskParts.Count * 800;
         var offset = 450;
-        masksContainer.GetComponent<RectTransform>().sizeDelta = new Vector2(100, height);
-        masksContainer.GetComponent<RectTransform>().localPosition = new Vector3(0, -height);
+        var distance = IsVertical ? 800 : 500;
+        var containerSize = unlockedMaskParts.Count * distance;
+
+        masksContainer.GetComponent<RectTransform>().sizeDelta 
+            = IsVertical ? new Vector2(100, containerSize) : new Vector2(containerSize, 100);
+        masksContainer.GetComponent<RectTransform>().localPosition 
+            = IsVertical ? new Vector2(100, -containerSize) : new Vector2(-containerSize, 100);
 
         var index = 0;
         foreach (var item in unlockedMaskParts)
@@ -68,7 +78,15 @@ public class GlossaryManager : MonoBehaviour
 
             go.transform.Find("maskDescription").GetComponent<TextMeshProUGUI>().text = description;
             go.transform.Find("maskPart").GetComponent<SpriteRenderer>().sprite = item;
-            go.transform.localPosition = new Vector3(0, (index * -750) + (height/2) - offset, 0);
+
+            if (!IsPurchase)
+            {
+                go.transform.Find("purchaseBtn").gameObject.SetActive(false);
+                go.transform.Find("price").gameObject.SetActive(false);
+            }
+
+            var position = (index * -distance) + (containerSize / 2) - offset;
+            go.transform.localPosition = IsVertical ? new Vector3(0, position, 0) : new Vector3(position, 0, 0);
             go.transform.localScale = new Vector3(2, 2, 2);
 
             index++;

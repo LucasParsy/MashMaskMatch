@@ -73,8 +73,8 @@ public class PoolMaskMovement : MonoBehaviour
         gameManager = GameObject.Find("GameManager");
 
         gameMaster = DebugUtils.getGameMaster();
-        musicManager = gameMaster.GetComponent<MusicManager>();
 
+        musicManager = gameMaster.GetComponent<MusicManager>();
         isPlaying = gameManager.GetComponent<SceneEventManager>().state == GameState.Playing;
     }
 

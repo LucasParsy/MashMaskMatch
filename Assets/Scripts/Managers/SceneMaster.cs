@@ -12,7 +12,17 @@ public class SceneMaster : MonoBehaviour
     /// <summary>
     /// GO of the Glossary btn in selection menu
     /// </summary>
+    private GameObject _marketBtn;
+
+    /// <summary>
+    /// GO of the Glossary btn in selection menu
+    /// </summary>
     private GameObject _glossaryBtn;
+
+    /// <summary>
+    /// is the glossary scene is use as a market
+    /// </summary>
+    private bool isPurchase;
 
     /// <summary>
     /// Go of the return btn in the glossary scene
@@ -82,7 +92,18 @@ public class SceneMaster : MonoBehaviour
         SceneManager.sceneLoaded -= SelectionMenu_sceneLoaded;
 
         _glossaryBtn = GameObject.Find("GlossaryBtn");
-        _glossaryBtn.GetComponent<Button>().onClick.AddListener(delegate { LaunchGlossaryScene(); });
+        _glossaryBtn.GetComponent<Button>().onClick.AddListener(delegate 
+            { 
+                isPurchase = false; 
+                LaunchGlossaryScene(); 
+            });
+
+        _marketBtn = GameObject.Find("MarketBtn");
+        _marketBtn.GetComponent<Button>().onClick.AddListener(delegate
+        {
+            isPurchase = true;
+            LaunchGlossaryScene();
+        });
 
         _shopBtn = GameObject.Find("ShopBtn");
         _shopBtn.GetComponent<Button>().onClick.AddListener(delegate { LaunchShopScene(); });
@@ -98,6 +119,24 @@ public class SceneMaster : MonoBehaviour
         SceneManager.sceneLoaded -= GlossaryScene_sceneLoaded;
         _glossaryReturnBtn = GameObject.Find("ReturnBtn");
         _glossaryReturnBtn.GetComponent<Button>().onClick.AddListener(delegate { LaunchSelectionMenuScene(); });
+
+        var scrollRect = GameObject.Find("Panel").GetComponent<ScrollRect>();
+        var manager = GameObject.Find("GlossarySceneManager").GetComponent<GlossaryManager>();
+
+        if (isPurchase)
+        {
+            scrollRect.horizontal = true;
+            scrollRect.vertical = false;
+            manager.IsPurchase = true;
+            manager.IsVertical = false;
+        }
+        else
+        {
+            scrollRect.horizontal = false;
+            scrollRect.vertical = true;
+            manager.IsPurchase = false;
+            manager.IsVertical = true;
+        }
     }
 
     /// <summary>

@@ -63,7 +63,7 @@ public class DebugUtils : MonoBehaviour
     {
         GameObject master = GameObject.Find("GameMasterDEBUG");
         if (master == null)
-            master = GameObject.Find("GameMasterDEBUG");
+            master = GameObject.Find("GameMaster");
         return master;
     }
 

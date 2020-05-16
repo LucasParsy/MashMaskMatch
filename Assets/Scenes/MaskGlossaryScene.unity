@@ -153,6 +153,8 @@ MonoBehaviour:
   masksContainer: {fileID: 1110304632}
   maskPresentation: {fileID: 8708557844790373636, guid: e69d3a53e247fdd4794946674394d994,
     type: 3}
+  IsPurchase: 1
+  IsVertical: 0
 --- !u!4 &61725310
 Transform:
   m_ObjectHideFlags: 0
@@ -580,8 +582,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Content: {fileID: 1110304633}
-  m_Horizontal: 0
-  m_Vertical: 1
+  m_Horizontal: 1
+  m_Vertical: 0
   m_MovementType: 1
   m_Elasticity: 0.1
   m_Inertia: 1

@@ -311,6 +311,7 @@ GameObject:
   - component: {fileID: 549516407}
   - component: {fileID: 549516406}
   - component: {fileID: 549516408}
+  - component: {fileID: 549516409}
   m_Layer: 0
   m_Name: GameMaster
   m_TagString: Untagged
@@ -338,7 +339,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 549516402}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.7527487, y: -0.14271402, z: -32.425518}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -490,6 +491,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 51fbc6ccb13caec478d4f3aa43dff68d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &549516409
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 549516402}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7760bdc877f98ff458b9480441f54521, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &996325607

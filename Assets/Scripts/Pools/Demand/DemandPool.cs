@@ -25,9 +25,9 @@ public class DemandPool : MonoBehaviour
 
         MaskPartContainer container = DebugUtils.getGameMaster().GetComponent<MaskPartContainer>();
         MaskCompletePool pool = new MaskCompletePool(
-        MaskPartContainer.getUnlockedMasks(container.EyesParts),
-        MaskPartContainer.getUnlockedMasks(container.ShapeParts),
-        MaskPartContainer.getUnlockedMasks(container.MouthParts));
+        MaskPartContainer.GetUnlockedMasks(container.EyesParts),
+        MaskPartContainer.GetUnlockedMasks(container.ShapeParts),
+        MaskPartContainer.GetUnlockedMasks(container.MouthParts));
 
         victoriousPick.Clear();
         int numComponents = Random.Range(1, 3);

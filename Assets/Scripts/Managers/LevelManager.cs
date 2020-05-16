@@ -90,10 +90,9 @@ public class LevelManager : MonoBehaviour
     /// <summary>
     /// Set Up all the enabled Mask parts on the UI
     /// </summary>
-
     private void setUpPool(MaskPool pool, Dictionary<Sprite, bool> spritesDict)
     {
-        List<Sprite> unlockedMasks = MaskPartContainer.getUnlockedMasks(spritesDict);
+        List<Sprite> unlockedMasks = MaskPartContainer.GetUnlockedMasks(spritesDict);
         ListUtils.Shuffle(unlockedMasks);
         pool.masksSprites.AddRange(unlockedMasks);
         pool.ShowMasks();
