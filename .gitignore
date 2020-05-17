@@ -67,3 +67,6 @@ crashlytics-build.properties
 
 #unity stats preferences
 ProjectSettings/UnityConnectSettings.asset
+
+#unused settings, but still shows up
+ProjectSettings/XRSettings.asset

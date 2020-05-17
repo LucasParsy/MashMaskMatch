@@ -3,31 +3,26 @@ using UnityEngine;
 public class DebugUtils : MonoBehaviour
 {
     [SerializeField]
-    private bool alwaysWin;
+    private bool alwaysWin = false;
 
     [SerializeField]
-    private bool skipClientAnimation;
-
-
-    [SerializeField]
-    private bool skipTextAnimation;
-
-    [SerializeField]
-    private bool skipMaskGivingAnimation;
+    private bool skipClientAnimation  = false;
 
 
     [SerializeField]
-    private bool unlockAllMasks;
+    private bool skipTextAnimation = false;
 
+    [SerializeField]
+    private bool skipMaskGivingAnimation = false;
 
-    private PoolMaskMovement movement;
-    private LevelManager manager;
-    private TextAppearance textAppearance;
-    private SceneEventManager sceneEventManager;
+    private PoolMaskMovement movement = null;
+    private LevelManager manager = null;
+    private TextAppearance textAppearance = null;
+    private SceneEventManager sceneEventManager = null;
 
-    private float baseMovementSpeed;
+    private float baseMovementSpeed = 0;
 
-    private float baseTimeWaitClientEnter;
+    private float baseTimeWaitClientEnter = 0;
 
     #region GameMethods
     private void Init()

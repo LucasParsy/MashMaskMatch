@@ -36,8 +36,9 @@ public class MusicManager : MonoBehaviour
     /// <summary>
     /// ? musics
     /// </summary>
-    [SerializeField]
-    private AudioClip[] overMus = null;
+    //TODO: Add game Over music
+    //[SerializeField]
+    //private AudioClip[] overMus = null;
 
     /// <summary>
     /// Table scratch sound effect

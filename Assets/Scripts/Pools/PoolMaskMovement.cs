@@ -42,7 +42,7 @@ public class PoolMaskMovement : MonoBehaviour
     /// Game master acces
     /// </summary>
     [SerializeField]
-    private Vector3 maskGiveMovement;
+    private Vector3 maskGiveMovement = Vector3.zero;
 
 
     #endregion
