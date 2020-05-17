@@ -41,3 +41,6 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: credits
+    uniqueID: 399094585
+    locked: 0
