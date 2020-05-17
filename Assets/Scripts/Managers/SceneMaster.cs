@@ -179,14 +179,14 @@ public class SceneMaster : MonoBehaviour
         SceneManager.sceneLoaded -= PlayerSettingsScene_Loaded;
 
         GameObject.Find("GoldCount").GetComponent<TextMeshProUGUI>().text = SaveManager.Instance.state.gold.ToString();
-        GameObject.Find("DaysCount").GetComponent<TextMeshProUGUI>().text = "\n" + SaveManager.Instance.state.completedDays.ToString();
+        GameObject.Find("DaysCount").GetComponent<TextMeshProUGUI>().text = SaveManager.Instance.state.completedDays.ToString();
 
         var master = DebugUtils.GetGameMaster().GetComponent<MaskPartContainer>();
         var unlockedMaskParts = MaskPartContainer.GetUnlockedMasks(master.ShapeParts).Count;
         unlockedMaskParts += MaskPartContainer.GetUnlockedMasks(master.MouthParts).Count;
         unlockedMaskParts += MaskPartContainer.GetUnlockedMasks(master.EyesParts).Count;
 
-        GameObject.Find("MaskCount").GetComponent<TextMeshProUGUI>().text = "\n" + unlockedMaskParts.ToString();
+        GameObject.Find("MaskCount").GetComponent<TextMeshProUGUI>().text = unlockedMaskParts.ToString();
     }
     #endregion
 }

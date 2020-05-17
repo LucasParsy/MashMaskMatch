@@ -15,8 +15,8 @@ public class RandomDemandDialogGen : MonoBehaviour
             "Auriez-vous un masque avec {0}?",
             "J'ai besoin d'un masque avec {0}",
             "J'aimerai bien un masque avec {0}, ça serait cool",
-            "un masque qui aurait {0}. vous auriez ça, ce serait génial.",
-            "combien pour un masque contenant {0}?",
+            "Un masque qui aurait {0}. vous auriez ça, ce serait génial.",
+            "Combien pour un masque contenant {0}?",
             "{0}. Mon masque idéal",
             "Vous vendez un masque avec {0}?"
         };
