@@ -77,12 +77,12 @@ public class TextAppearance : MonoBehaviour
     /// <returns></returns>
     IEnumerator TypeLetters()
     {
-        if (isInstant)
-        {
-            guiText.text = messageStorage;
-            isWritting = false;
-            yield break;
-        }
+        //if (isInstant)
+        //{
+        //    guiText.text = "Skip" + messageStorage;
+        //    isWritting = false;
+        //    yield break;
+        //}
         var charArray = messageStorage.ToCharArray();
 
         if (charArray.Length > 200)

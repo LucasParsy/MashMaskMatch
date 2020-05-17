@@ -75,7 +75,7 @@ public class LevelManager : MonoBehaviour
         eyesMaskPool = GameObject.Find("eyesPool").GetComponent<MaskPool>();
         mouthMaskPool = GameObject.Find("mouthPool").GetComponent<MaskPool>();
 
-        gameMaster = DebugUtils.getGameMaster();
+        gameMaster = DebugUtils.GetGameMaster();
     }
 
     void Start()

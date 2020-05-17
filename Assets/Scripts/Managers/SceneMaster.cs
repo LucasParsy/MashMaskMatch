@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -22,7 +23,7 @@ public class SceneMaster : MonoBehaviour
     /// <summary>
     /// is the glossary scene is use as a market
     /// </summary>
-    private bool isPurchase;
+    public bool isPurchase;
 
     /// <summary>
     /// Go of the return btn in the glossary scene
@@ -35,6 +36,21 @@ public class SceneMaster : MonoBehaviour
     private GameObject _shopBtn;
 
     /// <summary>
+    /// GO of the Option btn in selection menu
+    /// </summary>
+    private GameObject _optionBtn;
+
+    /// <summary>
+    /// GO of the return btn in Option menu
+    /// </summary>
+    private GameObject _optionReturnBtn;
+
+    /// <summary>
+    /// GO of the Reset btn in Option menu
+    /// </summary>
+    private GameObject _optionResetBtn;
+
+    /// <summary>
     /// SceneEventManager accès
     /// </summary>
     private SceneEventManager _shopSceneManager;
@@ -42,9 +58,14 @@ public class SceneMaster : MonoBehaviour
 
     #region Game Méthodes
 
-    void Start()
+    private void Awake()
     {
         DontDestroyOnLoad(this);
+    }
+
+    void Start()
+    {
+        
     }
 
     #endregion
@@ -54,10 +75,10 @@ public class SceneMaster : MonoBehaviour
     /// <summary>
     /// Launch principal game scene
     /// </summary>
-    public void LaunchSelectionMenuScene()
+    public void LaunchStartUpScene()
     {
-        SceneManager.sceneLoaded += SelectionMenu_sceneLoaded;
-        SceneManager.LoadScene("SelectionMenuScene", LoadSceneMode.Single);
+        SceneManager.sceneLoaded += StartUpScene_sceneLoaded;
+        SceneManager.LoadScene("StartUpScene", LoadSceneMode.Single);
     }
 
     /// <summary>
@@ -78,6 +99,12 @@ public class SceneMaster : MonoBehaviour
         SceneManager.LoadScene("ShopScene", LoadSceneMode.Single);
     }
 
+    public void LaunchPlayerSettingsScene()
+    {
+        SceneManager.sceneLoaded += PlayerSettingsScene_Loaded;
+        SceneManager.LoadScene("PlayerSettingsScene", LoadSceneMode.Single);
+    }
+
     #endregion
 
     #region Event
@@ -87,26 +114,11 @@ public class SceneMaster : MonoBehaviour
     /// </summary>
     /// <param name="arg0"></param>
     /// <param name="arg1"></param>
-    private void SelectionMenu_sceneLoaded(Scene arg0, LoadSceneMode arg1)
+    private void StartUpScene_sceneLoaded(Scene arg0, LoadSceneMode arg1)
     {
-        SceneManager.sceneLoaded -= SelectionMenu_sceneLoaded;
-
-        _glossaryBtn = GameObject.Find("GlossaryBtn");
-        _glossaryBtn.GetComponent<Button>().onClick.AddListener(delegate 
-            { 
-                isPurchase = false; 
-                LaunchGlossaryScene(); 
-            });
-
-        _marketBtn = GameObject.Find("MarketBtn");
-        _marketBtn.GetComponent<Button>().onClick.AddListener(delegate
-        {
-            isPurchase = true;
-            LaunchGlossaryScene();
-        });
-
-        _shopBtn = GameObject.Find("ShopBtn");
-        _shopBtn.GetComponent<Button>().onClick.AddListener(delegate { LaunchShopScene(); });
+        SceneManager.sceneLoaded -= StartUpScene_sceneLoaded;
+        GameObject.Find("Masks").SetActive(false);
+        GameObject.Find("StartMenuManager").GetComponent<StartMenuManager>().SetUpBtnMenu();
     }
 
     /// <summary>
@@ -117,23 +129,29 @@ public class SceneMaster : MonoBehaviour
     private void GlossaryScene_sceneLoaded(Scene arg0, LoadSceneMode arg1)
     {
         SceneManager.sceneLoaded -= GlossaryScene_sceneLoaded;
-        _glossaryReturnBtn = GameObject.Find("ReturnBtn");
-        _glossaryReturnBtn.GetComponent<Button>().onClick.AddListener(delegate { LaunchSelectionMenuScene(); });
 
         var scrollRect = GameObject.Find("Panel").GetComponent<ScrollRect>();
         var manager = GameObject.Find("GlossarySceneManager").GetComponent<GlossaryManager>();
+        var goldCount = GameObject.Find("GoldCount");
 
         if (isPurchase)
         {
+            goldCount.GetComponentInChildren<TextMeshProUGUI>().text = 
+                SaveManager.Instance.state.gold.ToString();
+
             scrollRect.horizontal = true;
             scrollRect.vertical = false;
+
             manager.IsPurchase = true;
             manager.IsVertical = false;
         }
         else
         {
+            goldCount.SetActive(false);
+
             scrollRect.horizontal = false;
             scrollRect.vertical = true;
+
             manager.IsPurchase = false;
             manager.IsVertical = true;
         }
@@ -149,6 +167,26 @@ public class SceneMaster : MonoBehaviour
         SceneManager.sceneLoaded -= ShopScene_sceneLoaded;
         _shopSceneManager = GameObject.Find("GameManager").GetComponent<SceneEventManager>();
         _shopSceneManager.LaunchStartOfDay();
+    }
+
+    /// <summary>
+    /// Event fire when PlayerSettingsScene is fullyloaded
+    /// </summary>
+    /// <param name="arg0"></param>
+    /// <param name="arg1"></param>
+    private void PlayerSettingsScene_Loaded(Scene arg0, LoadSceneMode arg1)
+    {
+        SceneManager.sceneLoaded -= PlayerSettingsScene_Loaded;
+
+        GameObject.Find("GoldCount").GetComponent<TextMeshProUGUI>().text = SaveManager.Instance.state.gold.ToString();
+        GameObject.Find("DaysCount").GetComponent<TextMeshProUGUI>().text = "\n" + SaveManager.Instance.state.completedDays.ToString();
+
+        var master = DebugUtils.GetGameMaster().GetComponent<MaskPartContainer>();
+        var unlockedMaskParts = MaskPartContainer.GetUnlockedMasks(master.ShapeParts).Count;
+        unlockedMaskParts += MaskPartContainer.GetUnlockedMasks(master.MouthParts).Count;
+        unlockedMaskParts += MaskPartContainer.GetUnlockedMasks(master.EyesParts).Count;
+
+        GameObject.Find("MaskCount").GetComponent<TextMeshProUGUI>().text = "\n" + unlockedMaskParts.ToString();
     }
     #endregion
 }

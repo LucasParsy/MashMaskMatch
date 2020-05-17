@@ -1459,6 +1459,7 @@ GameObject:
   - component: {fileID: 1137235617}
   - component: {fileID: 1137235616}
   - component: {fileID: 1137235621}
+  - component: {fileID: 1137235622}
   m_Layer: 0
   m_Name: GameMasterDEBUG
   m_TagString: Untagged
@@ -1614,6 +1615,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69745c8bfd9b26b428568447280f35cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isPurchase: 0
 --- !u!4 &1137235620
 Transform:
   m_ObjectHideFlags: 0
@@ -1640,6 +1642,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51fbc6ccb13caec478d4f3aa43dff68d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDebug: 0
+  allMasksUnlocked: 0
+--- !u!114 &1137235622
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1137235615}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7760bdc877f98ff458b9480441f54521, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  noSave: 1
 --- !u!1 &1182084648
 GameObject:
   m_ObjectHideFlags: 0
@@ -1837,7 +1854,7 @@ MonoBehaviour:
   maskGiveMovement: {x: -0.8, y: 1.5, z: 0}
   maskDistance: 0.8
   scale: 5
-  transitionSpeed: 1
+  transitionSpeed: 0.25
   transitionCurve:
     serializedVersion: 2
     m_Curve:
@@ -2364,7 +2381,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1788301477
 Transform:
   m_ObjectHideFlags: 0

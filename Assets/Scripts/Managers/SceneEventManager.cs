@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -126,7 +127,7 @@ public class SceneEventManager : MonoBehaviour
 
     void Awake()
     {
-        gameMaster = DebugUtils.getGameMaster();
+        gameMaster = DebugUtils.GetGameMaster();
         pools = GameObject.Find("pools");
         dialogue = GameObject.Find("Dialogue");
         doorAnimator = GameObject.Find("Wall")?.GetComponent<Animator>();
@@ -141,7 +142,6 @@ public class SceneEventManager : MonoBehaviour
     void Start()
     {
         totalVictoryPoint = 0;
-        demande = 0;
     }
 
     void Update()
@@ -160,7 +160,7 @@ public class SceneEventManager : MonoBehaviour
             {
                 countDown = 25;
                 StartCoroutine(startScratchSound());
-                timerAnimator.SetTrigger("StartTimer");
+                timerAnimator.Play("Timer", -1, 0);
                 state = GameState.Playing;
             }
         }
@@ -186,6 +186,7 @@ public class SceneEventManager : MonoBehaviour
     /// </summary>
     public void NewDemande()
     {
+        timerAnimator.Rebind();
         if (gameOverPanel != null)
         {
             Destroy(gameOverPanel.gameObject);
@@ -199,13 +200,12 @@ public class SceneEventManager : MonoBehaviour
         {
             LaunchEndOfDay();
             demande = 0;
-            timerAnimator.StopPlayback();
+            
             state = GameState.Menu;
             return;
         }
 
         state = GameState.Dialogue;
-        timerAnimator.StopPlayback();
         doorAnimator.SetTrigger("OpenDoor");
         StartCoroutine(RingTheBell());
         clientPool.GetComponent<ClientPool>().NewClient();
@@ -217,8 +217,17 @@ public class SceneEventManager : MonoBehaviour
     /// </summary>
     private void LaunchEndOfDay()
     {
+        var gain = 10 * totalVictoryPoint;
+
+        StringBuilder builder = new StringBuilder();
+        builder.Append(totalVictoryPoint);
+        builder.Append("/");
+        builder.Append(GetMaxVictoryPoint());
+        builder.Append(" élément réussi. \nGain total = ");
+        builder.Append(gain);
+
         gameOverGO.GetComponentInChildren<TextMeshProUGUI>().text
-            = totalVictoryPoint + "/15 élément réussi. \nGain total = " + 100 * totalVictoryPoint;
+            = builder.ToString();
 
         gameOverPanel = Instantiate(gameOverGO, uiCanvas.transform);
 
@@ -230,12 +239,29 @@ public class SceneEventManager : MonoBehaviour
 
         GameObject.Find("MenuBtn").GetComponent<Button>().onClick.AddListener(delegate
         {
-            gameMaster.GetComponent<SceneMaster>().LaunchSelectionMenuScene();
+            gameMaster.GetComponent<SceneMaster>().LaunchStartUpScene();
         });
 
-        SaveManager.Instance.state.gold += totalVictoryPoint;
+        SaveManager.Instance.state.gold += gain;
         SaveManager.Instance.state.completedDays += 1;
         SaveManager.Instance.Save();
+    }
+
+    private int GetMaxVictoryPoint()
+    {
+        int max = 7;
+        int playerExperiences = SaveManager.Instance.state.completedDays;
+
+        if (playerExperiences > 10 && playerExperiences <= 30)
+        {
+            max = 22;
+        }
+        else if (playerExperiences > 30)
+        {
+            max = 15;
+        }
+
+        return max;
     }
 
     /// <summary>
@@ -274,7 +300,7 @@ public class SceneEventManager : MonoBehaviour
     private IEnumerator StartingDemande()
     {
         yield return new WaitForSeconds(timeWaitClientEnter);
-        dialogue.GetComponent<TextAppearance>().WriteMessage(gameMaster.GetComponent<DemandPool>().GeneratedSentence());
+        dialogue.GetComponent<TextAppearance>().WriteMessage(gameMaster.GetComponent<DemandPool>().GeneratedSentence(demande));
 
         isStartingNewDemande = false;
     }

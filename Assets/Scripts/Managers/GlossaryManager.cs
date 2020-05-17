@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GlossaryManager : MonoBehaviour
 {
@@ -17,6 +18,7 @@ public class GlossaryManager : MonoBehaviour
 
     public GameObject masksContainer;
     public GameObject maskPresentation;
+    public GameObject shopBackground;
 
     public bool IsPurchase;
     public bool IsVertical;
@@ -28,16 +30,27 @@ public class GlossaryManager : MonoBehaviour
     void Start()
     {
         unlockedMaskParts = new List<Sprite>();
-        MaskPartContainer container = DebugUtils.getGameMaster().GetComponent<MaskPartContainer>();
-        FillPartList(container.ShapeParts);
-        FillPartList(container.EyesParts);
-        FillPartList(container.MouthParts);
+        FillMaskParts();
         InstanciateMasksPresentation();
+
+        if(IsPurchase)
+            shopBackground.SetActive(true);
+        else
+            shopBackground.SetActive(false);
     }
 
     #endregion
 
     #region Méthodes
+
+    public void FillMaskParts()
+    {
+        unlockedMaskParts.Clear();
+        MaskPartContainer container = DebugUtils.GetGameMaster().GetComponent<MaskPartContainer>();
+        FillPartList(container.ShapeParts);
+        FillPartList(container.EyesParts);
+        FillPartList(container.MouthParts);
+    }
 
     /// <summary>
     /// fill the unlockedMaskPart list with the unlocked part from the partList
@@ -63,7 +76,7 @@ public class GlossaryManager : MonoBehaviour
         masksContainer.GetComponent<RectTransform>().sizeDelta 
             = IsVertical ? new Vector2(100, containerSize) : new Vector2(containerSize, 100);
         masksContainer.GetComponent<RectTransform>().localPosition 
-            = IsVertical ? new Vector2(100, -containerSize) : new Vector2(-containerSize, 100);
+            = IsVertical ? new Vector2(100, -containerSize) : new Vector2(-containerSize, -400);
 
         var index = 0;
         foreach (var item in unlockedMaskParts)
@@ -78,11 +91,19 @@ public class GlossaryManager : MonoBehaviour
 
             go.transform.Find("maskDescription").GetComponent<TextMeshProUGUI>().text = description;
             go.transform.Find("maskPart").GetComponent<SpriteRenderer>().sprite = item;
+            var buyBtn = go.transform.Find("purchaseBtn").gameObject;
 
             if (!IsPurchase)
             {
-                go.transform.Find("purchaseBtn").gameObject.SetActive(false);
+                buyBtn.SetActive(false);
                 go.transform.Find("price").gameObject.SetActive(false);
+            }
+            else
+            {
+                buyBtn.GetComponent<Button>().onClick.AddListener(delegate 
+                {
+                    OnClickBuyMask(go);
+                });
             }
 
             var position = (index * -distance) + (containerSize / 2) - offset;
@@ -91,6 +112,47 @@ public class GlossaryManager : MonoBehaviour
 
             index++;
         }
+    }
+
+    public void OnClickBuyMask(GameObject item)
+    {
+        var price = int.Parse(item.transform.Find("price").GetComponentInChildren<TextMeshProUGUI>().text);
+        var gold = SaveManager.Instance.state.gold;
+
+        if (gold >= price)
+        {
+            var sprite = item.transform.Find("maskPart").GetComponent<SpriteRenderer>().sprite;
+
+            var partType = sprite.name.Contains("Eyes") ?
+                "Eyes" : sprite.name.Contains("Mouth") ? 
+                "Mouth" : sprite.name.Contains("Shape") ? 
+                "Shape" : "unknown";
+
+            switch (partType)
+            {
+                case "Eyes":
+                    SaveManager.Instance.UnlockEyes(sprite);
+                    break;
+                case "Mouth":
+                    SaveManager.Instance.UnlockMouth(sprite);
+                    break;
+                case "Shape":
+                    SaveManager.Instance.UnlockShape(sprite);
+                    break;
+                default:
+                    break;
+            }
+
+            SaveManager.Instance.state.gold -= price;
+            GameObject.Find("GoldCount").GetComponentInChildren<TextMeshProUGUI>().text = SaveManager.Instance.state.gold.ToString();
+            SaveManager.Instance.Save();
+            Destroy(item.gameObject);
+        }
+    }
+
+    public void OnClickReturnBtn()
+    {
+        DebugUtils.GetGameMaster().GetComponent<SceneMaster>().LaunchStartUpScene();
     }
     #endregion
 }

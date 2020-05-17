@@ -25,26 +25,49 @@ public class MaskPartContainer : MonoBehaviour
     /// </summary>
     public Dictionary<Sprite, bool> MouthParts;
 
+    public bool isDebug;
+    public bool allMasksUnlocked;
     #endregion
 
     #region Game méthodes
+
+    private void Awake()
+    {
+        if (isDebug)
+        {
+            LoadMasks();
+        }
+    }
 
     void Start()
     {
         DontDestroyOnLoad(this);
 
-        ShapeParts = LoadPart("Shapes");
-        EyesParts = LoadPart("Eyes");
-        MouthParts = LoadPart("Mouths");
+        if (!isDebug)
+        {
+            LoadMasks();
+            ReloadUnlockedMasks();
+        }
 
-        SetUnlockedParts(ShapeParts, 1);
-        SetUnlockedParts(EyesParts, 2);
-        SetUnlockedParts(MouthParts, 3);
     }
 
     #endregion
 
     #region Méthodes
+
+    public void LoadMasks()
+    {
+        ShapeParts = LoadPart("Shapes");
+        EyesParts = LoadPart("Eyes");
+        MouthParts = LoadPart("Mouths");
+    }
+
+    public void ReloadUnlockedMasks()
+    {
+        SetUnlockedParts(ShapeParts, 1);
+        SetUnlockedParts(EyesParts, 2);
+        SetUnlockedParts(MouthParts, 3);
+    }
 
     private Dictionary<Sprite, bool> LoadPart(string path)
     {
@@ -52,7 +75,16 @@ public class MaskPartContainer : MonoBehaviour
         var dic = new Dictionary<Sprite, bool>();
 
         foreach (var sprite in loadedSprites)
-            dic.Add(sprite, false);
+        {
+            var isUnlocked = 
+                allMasksUnlocked ? 
+                allMasksUnlocked : 
+                isDebug && sprite.name.StartsWith("African") ? 
+                true : 
+                allMasksUnlocked;
+
+            dic.Add(sprite, isUnlocked);
+        }
 
         return dic;
     }

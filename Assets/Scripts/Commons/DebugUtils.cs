@@ -59,7 +59,7 @@ public class DebugUtils : MonoBehaviour
     #endregion
     #region Methods
 
-    static public GameObject getGameMaster()
+    static public GameObject GetGameMaster()
     {
         GameObject master = GameObject.Find("GameMasterDEBUG");
         if (master == null)

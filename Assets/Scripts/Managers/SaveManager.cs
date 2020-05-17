@@ -16,12 +16,20 @@ public class SaveManager : MonoBehaviour
     #region Game méthodes
     private void Awake()
     {
-        DontDestroyOnLoad(this);
-        Instance = this;
-        Load();
+        if (!Instance)
+        {
+            DontDestroyOnLoad(gameObject);
+            Instance = this;
 
-        if (noSave)
-            ResetProgression();
+            Load();
+
+            if (noSave)
+                ResetProgression();
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
     #endregion
 
@@ -88,36 +96,47 @@ public class SaveManager : MonoBehaviour
     /// Toggle the right bit to unlock the shape
     /// </summary>
     /// <param name="index"></param>
-    public void UnlockShape(int index)
+    public void UnlockShape(Sprite part)
     {
+        var parts = GetComponent<MaskPartContainer>().ShapeParts;
+        var index = parts.Keys.ToList().IndexOf(part);
+
         //toggle on the bit at index
         state.unlockedShapes |= 1 << index;
-        var shapes = GetComponent<MaskPartContainer>().ShapeParts.Values.ToList();
-        shapes[index] = true;
+        parts[part] = true;
+
+        Debug.Log(part.name + "est débloqué");
     }
 
     /// <summary>
     /// Toggle the right bit to unlock the mouth
     /// </summary>
     /// <param name="index"></param>
-    public void UnlockMouth(int index)
+    public void UnlockMouth(Sprite part)
     {
+        var parts = GetComponent<MaskPartContainer>().MouthParts;
+        var index = parts.Keys.ToList().IndexOf(part);
+
         //toggle on the bit at index
         state.unlockedMouth |= 1 << index;
-        var mouths = GetComponent<MaskPartContainer>().MouthParts.Values.ToList();
-        mouths[index] = true;
+        parts[part] = true;
+        Debug.Log(part.name + "est débloqué");
     }
 
     /// <summary>
     /// Toggle the right bit to unlock the eyes
     /// </summary>
     /// <param name="index"></param>
-    public void UnlockEyes(int index)
+    public void UnlockEyes(Sprite part)
     {
+        var parts = GetComponent<MaskPartContainer>().EyesParts;
+        var index = parts.Keys.ToList().IndexOf(part);
+
         //toggle on the bit at index
         state.unlockedShapes |= 1 << index;
-        var eyes = GetComponent<MaskPartContainer>().EyesParts.Values.ToList();
-        eyes[index] = true;
+        parts[part] = true;
+
+        Debug.Log(part.name + "est débloqué");
     }
 
     /// <summary>
@@ -126,6 +145,8 @@ public class SaveManager : MonoBehaviour
     public void ResetProgression()
     {
         PlayerPrefs.DeleteKey("player");
+        Load();
+        GetComponent<MaskPartContainer>().ReloadUnlockedMasks();
     }
     #endregion
 }

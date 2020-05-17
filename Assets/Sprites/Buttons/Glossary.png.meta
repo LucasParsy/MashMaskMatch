@@ -1,13 +1,10 @@
 fileFormatVersion: 2
-guid: fbd42f371adbb504eb9b260c59ae5562
+guid: 35f6b73d1867d064093e02f2efdb4b64
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -889851761532419216
-    second: Accueil_play_0
-  - first:
-      213: 4556869693056482775
-    second: Accueil_play_1
+      213: 6791846387680928645
+    second: Glossary_0
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -116,34 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Accueil_play_0
+      name: Glossary_0
       rect:
         serializedVersion: 2
-        x: 72
-        y: 145
-        width: 38
-        height: 33
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 073ca1b998c96a3f0800000000000000
-      internalID: -889851761532419216
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Accueil_play_1
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 180
-        height: 320
+        x: 70
+        y: 163
+        width: 40
+        height: 27
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -151,8 +127,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7ddff5ea7d04d3f30800000000000000
-      internalID: 4556869693056482775
+      spriteID: 583edba0e4c714e50800000000000000
+      internalID: 6791846387680928645
       vertices: []
       indices: 
       edges: []
