@@ -115,7 +115,7 @@ public class PoolMaskMovement : MonoBehaviour
             part.transform.position = go.transform.position;
 
             string title = part.name;
-            Debug.Log("gave mask part " + title);
+            //Debug.Log("gave mask part " + title);
             var splitName = part.name.Split('_');
             var pos = splitName[1].IndexOf("(Clone)");
             if (pos > 0)

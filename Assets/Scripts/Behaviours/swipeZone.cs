@@ -44,8 +44,14 @@ public class swipeZone : MonoBehaviour, IPointerUpHandler, IPointerDownHandler
 
     private void setupButton(string name, Direction dir)
     {
-        Button butt = gameObject.transform.Find(name).GetComponent<Button>();
+        Transform buttObj = gameObject.transform.Find(name);
+        var butt = buttObj.GetComponent<Button>();
         butt.onClick.AddListener(delegate { swipe(dir); });
+
+        //so the swipe is not shadowed by the button press
+        var trigger = butt.GetComponent<EventTrigger>();
+        TriggerUtils.AddEventTriggerListener(trigger, EventTriggerType.PointerUp, OnPointerUp);
+        TriggerUtils.AddEventTriggerListener(trigger, EventTriggerType.PointerDown, OnPointerDown);
     }
 
     public void swipe(Direction dir)
@@ -55,6 +61,7 @@ public class swipeZone : MonoBehaviour, IPointerUpHandler, IPointerDownHandler
 
     public void OnPointerUp(PointerEventData eventData)
     {
+        //Debug.Log("pointer up" + eventData.position);
         Vector2 movement = eventData.position - startDragPos;
         movement /= canvasSize;
         float time = Time.time - startDragTime;
@@ -63,14 +70,15 @@ public class swipeZone : MonoBehaviour, IPointerUpHandler, IPointerDownHandler
             swipe(movement.x > 0 ? Direction.left : Direction.right);
 
         if (Mathf.Abs(movement.y) * speedMultiplier >= swipeUpTreshold)
+        {
+            //Debug.Log("give " + movement + "speed " + speedMultiplier);
             maskPool.GetComponentInParent<PoolMaskMovement>().giveMask();
-
-        //Debug.Log("movement " + movement + "time: " + time);
-        startDragPos = Vector2.zero;
+        }
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        Debug.Log("pointer down" + eventData.position);
         startDragPos = eventData.position;
         startDragTime = Time.time;
     }

@@ -121,7 +121,7 @@ public class LevelManager : MonoBehaviour
 
         foreach (var item in maskParts)
         {
-            Debug.Log(item);
+            //Debug.Log(item);
 
             if (victoriousPartList.Any(p => p.Equals(item)))
             {
