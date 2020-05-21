@@ -70,3 +70,6 @@ ProjectSettings/UnityConnectSettings.asset
 
 #unused settings, but still shows up
 ProjectSettings/XRSettings.asset
+
+#personal releases folder
+releases-bin
